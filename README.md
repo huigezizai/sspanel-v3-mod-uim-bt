@@ -13,6 +13,7 @@ yum install -y wget && wget -O install.sh http://download.bt.cn/install/install.
 
 ## 安装脚本
 ``` bash
-wget -N --no-check-certificate https://raw.githubusercontent.com/lizhongnian/sspanel-v3-mod-uim-bt/master/sspanel-v3-mod-uim-bt.sh && chmod +x sspanel-v3-mod-uim-bt.sh &&
+wget -N --no-check-certificate https://raw.githubusercontent.com/lizhongnian/sspanel-v3-mod-uim-bt/master/sspanel-v3-mod-uim-bt.sh &&
+chmod +x sspanel-v3-mod-uim-bt.sh &&
 bash sspanel-v3-mod-uim-bt.sh
 ```
