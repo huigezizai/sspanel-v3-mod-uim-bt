@@ -41,31 +41,50 @@ echo $mysqlpassword
 echo "请输入网站的mukey(用于webapi方式对接后端，可以自定义)：" sspanelmukey
 echo $sspanelmukey
 sleep 1
-echo "请等待系统自动操作......"
+echo -e "${Info} 请等待系统自动操作......"
 cd /www/wwwroot/$website
 rm -rf index.html 404.html
-##安装git unzip
-yum install git unzip -y
+##安装git unzip crontab
+echo -e "${Info} 正在检测安装git、unzip、crontab工具"
+yum install git unzip crontab -y
+echo -e "${Info} 检测安装git、unzip、crontab工具已完成"
+sleep 1
+echo -e "${Info} 正在下载解压处理程序源码"
 wget -N --no-check-certificate "https://github.com/lizhongnian/ss-panel-v3-mod_Uim/archive/master.zip"
 unzip master.zip
 cd ss-panel-v3-mod_Uim-master
 mv * .[^.]* /www/wwwroot/$website/
 cd ..
 rm -rf master.zip ss-panel-v3-mod_Uim-master/
+echo -e "${Info} 下载解压处理程序源码已完成"
+sleep 1
+echo -e "${Info} 正在处理宝塔php内容"
 sed -i 's/system,//g' /www/server/php/71/etc/php.ini
 sed -i 's/proc_open,//g' /www/server/php/71/etc/php.ini
 sed -i 's/proc_get_status,//g' /www/server/php/71/etc/php.ini
 sed -i 's/dynamic/static/g' /www/server/php/71/etc/php-fpm.conf
 sed -i 's/display_errors = On/display_errors = Off/g' /www/server/php/71/etc/php.ini
+echo -e "${Info} 处理宝塔php内容已完成"
+sleep 1
+echo -e "${Info} 正在导入数据库"
 cd sql/
 mysql -u$mysqlusername -p$mysqlpassword $mysqlusername < glzjin_all.sql >/dev/null 2>&1
+echo -e "${Info} 导入数据库已完成"
+sleep 1
+echo -e "${Info} 正在安装依赖"
 cd ..
 chown -R root:root *
 chmod -R 755 *
 chown -R www:www storage
 php composer.phar install
+echo -e "${Info} 安装依赖已完成"
+sleep 1
+echo -e "${Info} 正在处理nginx内容"
 echo "location / {try_files \$uri \$uri/ /index.php\$is_args\$args;}"> /www/server/panel/vhost/rewrite/$website.conf
 sed -i 's/root /www/wwwroot/$website;/root /www/wwwroot/$website/public;/g' /www/server/panel/vhost/nginx/$website.conf
+echo -e "${Info} 处理nginx内容已完成"
+sleep 1
+echo -e "${Info} 正在配置站点基本信息"
 cd /www/wwwroot/$website
 cp config/.config.php.for7color config/.config.php
 sed -i 's/websiteurl/$website/g' /www/wwwroot/$website/config/.config.php
@@ -73,6 +92,85 @@ sed -i 's/sspanel-mukey/$sspanelmukey/g' /www/wwwroot/$website/config/.config.ph
 sed -i 's/sspanel-db-databasename/$mysqlusername/g' /www/wwwroot/$website/config/.config.php
 sed -i 's/sspanel-db-username/$mysqlusername/g' /www/wwwroot/$website/config/.config.php
 sed -i 's/sspanel-db-password/$mysqlpassword/g' /www/wwwroot/$website/config/.config.php
-
-
-
+echo -e "${Info} 配置站点基本信息已完成"
+sleep 1
+echo -e "${Info} 正在添加定时任务"
+echo "30 22 * * * php /www/wwwroot/$website/xcat sendDiaryMail" >> /var/spool/cron/root
+echo "0 0 * * * php -n /www/wwwroot/$website/xcat dailyjob" >> /var/spool/cron/root
+echo "*/1 * * * * php /www/wwwroot/$website/xcat checkjob" >> /var/spool/cron/root
+echo "*/1 * * * * php /www/wwwroot/$website/xcat syncnode" >> /var/spool/cron/root
+echo -e "${Info} 添加定时任务已完成"
+sleep 1
+echo -e "${Info} 正在重启PHP"
+/etc/init.d/php-fpm-71 restart
+echo -e "${Info} 重启PHP已完成"
+sleep 1
+echo -e "${Info} 正在重启NGINX"
+/etc/init.d/nginx restart
+echo -e "${Info} 重启NGINX已完成"
+sleep 3
+echo $Tip "安装即将完成，倒数五个数！"
+sleep 1
+echo "-----------------------------"
+echo "#############################"
+echo "########           ##########"
+echo "########   ##################"
+echo "########   ##################"
+echo "########           ##########"
+echo "###############    ##########"
+echo "###############    ##########"
+echo "########           ##########"
+echo "#############################"
+sleep 1
+echo "-----------------------------"
+echo "#############################"
+echo "#######   ####   ############"
+echo "#######   ####   ############"
+echo "#######   ####   ############"
+echo "#######               #######"
+echo "##############   ############"
+echo "##############   ############"
+echo "##############   ############"
+echo "#############################"
+sleep 1
+echo "-----------------------------"
+echo "#############################"
+echo "########            #########"
+echo "#################   #########"
+echo "#################   #########"
+echo "########            #########"
+echo "#################   #########"
+echo "#################   #########"
+echo "########            #########"
+echo "#############################"
+sleep 1
+echo "-----------------------------"
+echo "#############################"
+echo "########           ##########"
+echo "################   ##########"
+echo "################   ##########"
+echo "########           ##########"
+echo "########   ##################"
+echo "########   ##################"
+echo "########           ##########"
+echo "#############################"
+sleep 1
+echo "-----------------------------"
+echo "#############################"
+echo "############   ##############"
+echo "############   ##############"
+echo "############   ##############"
+echo "############   ##############"
+echo "############   ##############"
+echo "############   ##############"
+echo "############   ##############"
+echo "#############################"
+echo "-----------------------------"
+sleep 1
+echo "----------------------------------------------------------------------------"
+echo -e "${Info} 部署完成，请打开http://$website即可浏览"
+echo -e "${Info} 默认生成的管理员用户名密码都为7colorblog"
+echo -e "${Info} 如果打不开站点，请到宝塔面板中软件管理重启nginx和php7.1"
+echo -e "${Info} github地址:https://github.com/lizhongnian/sspanel-v3-mod-uim-bt"
+echo -e "${Info} 博客地址:https://www.7colorblog.com/"
+echo "----------------------------------------------------------------------------"
