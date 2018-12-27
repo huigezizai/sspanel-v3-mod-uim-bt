@@ -34,8 +34,8 @@ echo -e "请注意这些要求:“\033[31m 宝塔版本=5.9 \033[0m”，添加�
 echo "----------------------------------------------------------------------------"
 stty erase '^H' && read -p "请输入宝塔面板添加的网站域名,请不要修改添加之后的默认地址（例如:www.baidu.com，不带http/https）：" website
 stty erase '^H' && read -p "请输入宝塔面板添加的MySQL用户名(数据库名)：" mysqlusername
-stty erase '^H' && echo -p "请输入宝塔面板添加的MySQL密码：" mysqlpassword
-stty erase '^H' && echo -p "请输入网站的mukey(用于webapi方式对接后端，可以自定义)：" sspanelmukey
+stty erase '^H' && read -p "请输入宝塔面板添加的MySQL密码：" mysqlpassword
+stty erase '^H' && read -p "请输入网站的mukey(用于webapi方式对接后端，可以自定义)：" sspanelmukey
 sleep 1
 echo -e "${Info} 请确认您输入的网站域名：$website"
 echo -e "${Info} 请确认您输入的MySQL用户名：$mysqlusername"
@@ -186,3 +186,5 @@ echo -e "${Info} 如果打不开站点，请到宝塔面板中软件管理重启
 echo -e "${Info} github地址:https://github.com/lizhongnian/sspanel-v3-mod-uim-bt"
 echo -e "${Info} 博客地址:https://www.7colorblog.com/"
 echo "----------------------------------------------------------------------------"
+
+
