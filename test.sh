@@ -48,4 +48,4 @@ case "$status" in
 	;;
 esac
 echo -e "${Info} 请等待系统自动操作......"
-sed -i "s/websiteurl/$website\/g" /www/wwwroot/$website/config/.config.php
+sed -e "s/websiteurl/$website\/g" /www/wwwroot/$website/config/.config.php
