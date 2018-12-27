@@ -93,17 +93,17 @@ echo -e "${Info} 安装依赖已完成"
 sleep 1
 echo -e "${Info} 正在处理nginx内容"
 echo "location / {try_files \$uri \$uri/ /index.php\$is_args\$args;}"> /www/server/panel/vhost/rewrite/$website.conf
-sed -i 's/root /www/wwwroot/${website};/root /www/wwwroot/$website/public;/g' /www/server/panel/vhost/nginx/$website.conf
+sed -i "s/root /www/wwwroot/${website};/root /www/wwwroot/$website/public;/g" /www/server/panel/vhost/nginx/$website.conf
 echo -e "${Info} 处理nginx内容已完成"
 sleep 1
 echo -e "${Info} 正在配置站点基本信息"
 cd /www/wwwroot/$website
 cp config/.config.php.for7color config/.config.php
-sed -i 's/websiteurl/${website}/g' /www/wwwroot/$website/config/.config.php
-sed -i 's/sspanel-mukey/${sspanelmukey}/g' /www/wwwroot/$website/config/.config.php
-sed -i 's/sspanel-db-databasename/${mysqlusername}/g' /www/wwwroot/$website/config/.config.php
-sed -i 's/sspanel-db-username/${mysqlusername}/g' /www/wwwroot/$website/config/.config.php
-sed -i 's/sspanel-db-password/${mysqlpassword}/g' /www/wwwroot/$website/config/.config.php
+sed -i "s/websiteurl/$website/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-mukey/$sspanelmukey/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-databasename/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-username/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-password/$mysqlpassword/g" /www/wwwroot/$website/config/.config.php
 echo -e "${Info} 配置站点基本信息已完成"
 sleep 1
 echo -e "${Info} 正在添加定时任务"
@@ -121,7 +121,7 @@ echo -e "${Info} 正在重启NGINX"
 /etc/init.d/nginx restart
 echo -e "${Info} 重启NGINX已完成"
 sleep 3
-echo -e "${Tip} 安装即将完成，倒数五个数！"
+echo $Tip "安装即将完成，倒数五个数！"
 sleep 1
 echo "-----------------------------"
 echo "#############################"
@@ -186,5 +186,3 @@ echo -e "${Info} 如果打不开站点，请到宝塔面板中软件管理重启
 echo -e "${Info} github地址:https://github.com/lizhongnian/sspanel-v3-mod-uim-bt"
 echo -e "${Info} 博客地址:https://www.7colorblog.com/"
 echo "----------------------------------------------------------------------------"
-
-
