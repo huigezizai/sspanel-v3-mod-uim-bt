@@ -61,6 +61,7 @@ echo -e "${Info} 正在检测安装git、unzip、crontab工具"
 yum install git unzip crontab -y
 echo -e "${Info} 检测安装git、unzip、crontab工具已完成"
 sleep 1
+##下载解压拷贝源码
 echo -e "${Info} 正在下载解压处理程序源码"
 wget -N --no-check-certificate "https://github.com/lizhongnian/ss-panel-v3-mod_Uim/archive/dev.zip"
 unzip dev.zip
@@ -70,6 +71,7 @@ cd ..
 rm -rf dev.zip ss-panel-v3-mod_Uim-dev/
 echo -e "${Info} 下载解压处理程序源码已完成"
 sleep 1
+##处理php函数
 echo -e "${Info} 正在处理宝塔php内容"
 sed -i 's/system,//g' /www/server/php/71/etc/php.ini
 sed -i 's/proc_open,//g' /www/server/php/71/etc/php.ini
@@ -78,11 +80,13 @@ sed -i 's/dynamic/static/g' /www/server/php/71/etc/php-fpm.conf
 sed -i 's/display_errors = On/display_errors = Off/g' /www/server/php/71/etc/php.ini
 echo -e "${Info} 处理宝塔php内容已完成"
 sleep 1
+##导入数据库
 echo -e "${Info} 正在导入数据库"
 cd sql/
 mysql -u$mysqlusername -p$mysqlpassword $mysqlusername < glzjin_all.sql >/dev/null 2>&1
 echo -e "${Info} 导入数据库已完成"
 sleep 1
+##安装依赖
 echo -e "${Info} 正在安装依赖"
 cd ..
 chown -R root:root *
@@ -91,11 +95,13 @@ chown -R www:www storage
 php composer.phar install
 echo -e "${Info} 安装依赖已完成"
 sleep 1
+##处理nginx伪静态和运行目录
 echo -e "${Info} 正在处理nginx内容"
 echo "location / {try_files \$uri \$uri/ /index.php\$is_args\$args;}"> /www/server/panel/vhost/rewrite/$website.conf
-sed -i "s/root /www/wwwroot/${website};/root /www/wwwroot/$website/public;/g" /www/server/panel/vhost/nginx/$website.conf
+sed -i "s/\/www\/wwwroot\/${website}/\/www\/wwwroot\/$website\/public/g" /www/server/panel/vhost/nginx/$website.conf
 echo -e "${Info} 处理nginx内容已完成"
 sleep 1
+##初始化站点信息
 echo -e "${Info} 正在配置站点基本信息"
 cd /www/wwwroot/$website
 cp config/.config.php.for7color config/.config.php
@@ -106,13 +112,17 @@ sed -i "s/sspanel-db-username/$mysqlusername/g" /www/wwwroot/$website/config/.co
 sed -i "s/sspanel-db-password/$mysqlpassword/g" /www/wwwroot/$website/config/.config.php
 echo -e "${Info} 配置站点基本信息已完成"
 sleep 1
+##加入定时任务
 echo -e "${Info} 正在添加定时任务"
 echo "30 22 * * * php /www/wwwroot/$website/xcat sendDiaryMail" >> /var/spool/cron/root
 echo "0 0 * * * php -n /www/wwwroot/$website/xcat dailyjob" >> /var/spool/cron/root
 echo "*/1 * * * * php /www/wwwroot/$website/xcat checkjob" >> /var/spool/cron/root
 echo "*/1 * * * * php /www/wwwroot/$website/xcat syncnode" >> /var/spool/cron/root
+chkconfig –level 35 crond on
+/sbin/service crond restart
 echo -e "${Info} 添加定时任务已完成"
 sleep 1
+##重启php和nginx
 echo -e "${Info} 正在重启PHP"
 /etc/init.d/php-fpm-71 restart
 echo -e "${Info} 重启PHP已完成"
