@@ -68,3 +68,14 @@ echo $Info"如果打不开站点，请到宝塔面板中软件管理重启nginx�
 echo $Info"github地址:https://github.com/lizhongnian/sspanel-v3-mod-uim-bt"
 echo $Info"博客地址:https://www.7colorblog.com/"
 echo "----------------------------------------------------------------------------"
+stty erase '^H' && read -p " 请输入数字 [1-2]:" num
+case "$num" in
+	1)
+	echo "$num"
+	;;
+	2)
+	echo "$num"
+	;;
+  *)
+	echo "请输入正确数字 [1-9]"
+	;;
