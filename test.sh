@@ -54,3 +54,8 @@ case "$status" in
 	;;
 esac
 echo -e "${Info} 请等待系统自动操作......"
+sed -i "s/websiteurl/$website\/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-mukey/$sspanelmukey/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-databasename/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-username/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-password/$mysqlpassword/g" /www/wwwroot/$website/config/.config.php
