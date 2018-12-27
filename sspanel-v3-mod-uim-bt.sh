@@ -112,6 +112,15 @@ sed -i "s/sspanel-db-username/$mysqlusername/g" /www/wwwroot/$website/config/.co
 sed -i "s/sspanel-db-password/$mysqlpassword/g" /www/wwwroot/$website/config/.config.php
 echo -e "${Info} 配置站点基本信息已完成"
 sleep 1
+##下载IP解析库  下载ssr程式
+echo -e "${Info} 正在下载ip解析库"
+php xcat initQQWry
+echo -e "${Info} 下载ip解析库已完成"
+sleep 1
+echo -e "${Info} 正在下载ssr程式"
+php xcat initdownload
+echo -e "${Info} 下载ssr程式已完成"
+sleep 1
 ##加入定时任务
 echo -e "${Info} 正在添加定时任务"
 echo "30 22 * * * php /www/wwwroot/$website/xcat sendDiaryMail" >> /var/spool/cron/root
