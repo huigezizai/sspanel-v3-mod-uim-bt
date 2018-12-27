@@ -140,7 +140,7 @@ echo -e "${Info} 正在重启NGINX"
 /etc/init.d/nginx restart
 echo -e "${Info} 重启NGINX已完成"
 sleep 3
-echo $Tip "安装即将完成，倒数五个数！"
+echo -e "${Tip} 安装即将完成，倒数五个数！"
 sleep 1
 echo "-----------------------------"
 echo "#############################"
@@ -200,7 +200,7 @@ echo "-----------------------------"
 sleep 1
 echo "--------------------------------------------------------------------------------"
 echo -e "${Info} 部署完成，请打开http://$website即可浏览"
-echo -e "${Info} 默认生成的管理员用户名密码都为7colorblog"
+echo -e "${Info} 默认生成的管理员用户名：admin 密码为7colorblog"
 echo -e "${Info} 如果打不开站点，请到宝塔面板中软件管理重启nginx和php7.1"
 echo -e "${Info} 自定义配置，请打开/www/wwwroot/$website/config/.config.php进行修改"
 echo -e "${Info} github地址:https://github.com/lizhongnian/sspanel-v3-mod-uim-bt"
