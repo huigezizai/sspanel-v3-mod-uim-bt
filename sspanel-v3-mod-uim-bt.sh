@@ -121,7 +121,7 @@ echo -e "${Info} 正在重启NGINX"
 /etc/init.d/nginx restart
 echo -e "${Info} 重启NGINX已完成"
 sleep 3
-echo $Tip "安装即将完成，倒数五个数！"
+echo -e "${Tip} 安装即将完成，倒数五个数！"
 sleep 1
 echo "-----------------------------"
 echo "#############################"
