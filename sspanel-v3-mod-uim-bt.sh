@@ -34,12 +34,14 @@ echo "--------------------------------------------------------------------------
 echo -e "请注意这些要求:“\033[31m 宝塔版本=5.9 \033[0m”，添加网址PHP版本必须选择为“\033[31m PHP7.1 \033[0m”,添加完成后地址不要改动！"
 echo "----------------------------------------------------------------------------"
 stty erase '^H' && read -p "请输入宝塔面板添加的网站域名,请不要修改添加之后的默认地址（例如:www.baidu.com，不带http/https）：" website
-stty erase '^H' && read -p "请输入宝塔面板添加的MySQL用户名(数据库名)：" mysqlusername
+stty erase '^H' && read -p "请输入宝塔面板添加的MySQL用户名：" mysqlusername
+stty erase '^H' && read -p "请输入宝塔面板添加的MySQL数据库名：" mysqldatabase
 stty erase '^H' && read -p "请输入宝塔面板添加的MySQL密码：" mysqlpassword
 stty erase '^H' && read -p "请输入网站的mukey(用于webapi方式对接后端，可以自定义)：" sspanelmukey
 sleep 1
 echo -e "${Info} 请确认您输入的网站域名：$website"
 echo -e "${Info} 请确认您输入的MySQL用户名：$mysqlusername"
+echo -e "${Info} 请确认您输入的MySQL用户名：$mysqldatabase"
 echo -e "${Info} 请确认您输入的MySQL密码：$mysqlpassword"
 echo -e "${Info} 请确认您输入的mukey：$sspanelmukey"
 stty erase '^H' && read -p " 请输入数字(1：继续；2：退出) [1/2]:" status
@@ -84,7 +86,7 @@ sleep 1
 ##导入数据库
 echo -e "${Info} 正在导入数据库"
 cd sql/
-mysql -u$mysqlusername -p$mysqlpassword $mysqlusername < glzjin_all.sql >/dev/null 2>&1
+mysql -u$mysqlusername -p$mysqlpassword $mysqldatabase < glzjin_all.sql >/dev/null 2>&1
 echo -e "${Info} 导入数据库已完成"
 sleep 1
 ##安装依赖
@@ -108,7 +110,7 @@ cd /www/wwwroot/$website
 cp config/.config.php.for7color config/.config.php
 sed -i "s/websiteurl/$website/g" /www/wwwroot/$website/config/.config.php
 sed -i "s/sspanel-mukey/$sspanelmukey/g" /www/wwwroot/$website/config/.config.php
-sed -i "s/sspanel-db-databasename/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
+sed -i "s/sspanel-db-databasename/$mysqldatabase/g" /www/wwwroot/$website/config/.config.php
 sed -i "s/sspanel-db-username/$mysqlusername/g" /www/wwwroot/$website/config/.config.php
 sed -i "s/sspanel-db-password/$mysqlpassword/g" /www/wwwroot/$website/config/.config.php
 echo -e "${Info} 配置站点基本信息已完成"
